@@ -11,17 +11,18 @@ Also ensure that you have installed the latest updates. Again click on the *Appl
 
 Install the following software by downloading it at these urls:
 
+### IDE (Text Editor for Code)
+Choose one of the editors below to install.  Both are free, but Atom is open-source.
+
+[Atom](https://atom.io)
+
 [Sublime Text](http://www.sublimetext.com/)
 
-This is the free text editor we will be using in class. 
+### Browser
+We will be doing all web development in Google Chrome because of its excellent developer tools.
 
 [Google Chrome](https://www.google.com/intl/en-US/chrome/browser/)
 
-We will be doing all web development in Google Chrome because of its excellent developer tools.
-
-[iTerm2](http://www.iterm2.com/)
-
-An enhanced Terminal we'll learn to use.
 
 ## Install the Command Line Utilities
 
@@ -31,7 +32,7 @@ Install Apple's Command Line Tools: Instructions vary depending on which version
 
 If the dialog box does not appear or you get an '*command not found*' error, it may be because you are running a slightly older version of the Mac OS. Download one of the following installers depending on your version of Mac OS. Double-click the completed download to install the files:
 
-- Mac OS 10.9: [Command Line Utilities for Mac OS 10.9 Mavericks](https://s3.amazonaws.com/okcoders/command_line_tools_for_osx_mavericks_april_2014.dmg) 
+- Mac OS 10.9: [Command Line Utilities for Mac OS 10.9 Mavericks](https://s3.amazonaws.com/okcoders/command_line_tools_for_osx_mavericks_april_2014.dmg)
 - Mac OS 10.8: [Command Line Utilities for Mac OS 10.8 Mountain Lion](https://s3.amazonaws.com/okcoders/command_line_tools_for_osx_mountain_lion_april_2014.dmg)
 
 ## Configure Git
@@ -43,23 +44,36 @@ Set your global git username and password. At the terminal, type the following t
 
 ## Install Homebrew
 
-Install Homebrew: Follow the instructions at [http://brew.sh/](http://brew.sh/). Scroll to the bottom of the page and paste the text that appears in your Terminal. Press return to execute the command. Text activity should indicate that Homebrew is being downloaded and installed. Follow any instructions that appear.
+**Install Homebrew**:
 
-Update Hombrew: At the terminal, type the following command and press return:
+	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+ Follow the instructions at [http://brew.sh/](http://brew.sh/). Scroll to the bottom of the page and paste the text that appears in your Terminal. Press return to execute the command. Text activity should indicate that Homebrew is being downloaded and installed. Follow any instructions that appear.
+
+**Update Hombrew**: At the terminal, type the following command and press return:
 
 	 brew update
 
 ## Install Node and Friends
 
-Install Node.js: At the Terminal, type the following command and press return: 
+**Install NodeJS**: At the Terminal, type the following command and press return:
 
 	brew install node
 
-Install Express: At the Terminal, type the following two commands and press return after each one:
+**Install Express**: At the Terminal, type the following two commands and press return after each one:
 
 	npm install -g express-generator
 
-## Set Up Heroku
+## Install MongoDB
+
+**Install MongoDB**: At the Terminal, type the following command and press return:
+
+	brew install mongodb
+
+**Install RoboMongo**:  RoboMongo is an excellment open-source GUI for MongoDB.  Download it here: [robomongo.org](https://robomongo.org/download)
+
+
+## Set Up Heroku (optional)
 
 Sign up for a free account at Heroku: [https://www.heroku.com/](https://www.heroku.com/)
 
@@ -67,7 +81,7 @@ Install the Heroku Command Line Interface: Follow the instructions at [https://d
 
 ## Set up your SSH keys
 
-SSH Keys are used to establish a secure connection to GitHub and Heroku. 
+SSH Keys are used to establish a secure connection to GitHub and Heroku.
 
 Follow the instructions at GitHub to create and register new SSH keys: [Generating SSH Keys for GitHub](https://help.github.com/articles/generating-ssh-keys).
 
