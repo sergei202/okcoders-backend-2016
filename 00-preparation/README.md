@@ -7,4 +7,4 @@ Instructions are provided for Mac and Windows computers, the two operating syste
 
 If you are not familiar with the command line, expect to spend a couple hours on this.
 
-Refer to the **00-02-mac-setup** or **00-03-win-setup** file for additional instructions depending on your computer.
+Refer to the [**00-02-mac-setup**](https://github.com/sergei202/okcoders-backend/blob/master/00-preparation/00-02-mac-setup.md) or [**00-03-win-setup**](https://github.com/sergei202/okcoders-backend/blob/master/00-preparation/00-03-win-setup.md) file for additional instructions depending on your computer.
