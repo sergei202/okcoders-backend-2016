@@ -1,9 +1,9 @@
-Introduction to Node.js
+Introduction to NodeJS
 ============================
 
-Node.js is a platform for writing server-side javascript, or javascript that can be run from the command line instead of in the browser. Node allows you to write programs in javascript but also gives you access to underlying system functionality such as reading and writing files or making connections to other computer across the internet.
+NodeJS is a platform for writing server-side javascript, or javascript that can be run from the command line instead of in the browser. Node allows you to write programs in javascript but also gives you access to underlying system functionality such as reading and writing files or making connections to other computer across the Internet.
 
-Node is also the command line program which runs your javascript code. It implements that lower level functionality like file system access and exposes it to your application in what are known as modules. The node program is also an *interpreter* which is able to turn your plain text javascript file into a running application on your computer.
+Node is also the command line program which runs your javascript code. It implements that lower level functionality like file system access and exposes it to your application in what are known as *modules*. The node program is also an *interpreter* which is able to turn your plain text javascript file into a running application on your computer.
 
 The node platform is large and we won't be covering all of it in this class by any means. We'll focus on those parts of node that we need to know in order to build web applications. Importantly, we'll emphasize the higher-level design patterns that are common in node such as asynchronous I/O (input/output) and modules.
 
@@ -11,7 +11,7 @@ The node platform is large and we won't be covering all of it in this class by a
 
 [Node](http://nodejs.org/)
 
-The node home. Definitely want to check out the Docs page.
+The node homepage.  Definitely want to check out the Docs page.
 
 [Node APIs](http://nodejs.org/api/)
 
@@ -23,11 +23,11 @@ The web development framework we will ultimately be using.
 
 [Learn You Node](https://github.com/rvagg/learnyounode)
 
-An introduction to node.js via a series of self-guided workshops.
+An introduction to NodeJS via a series of self-guided workshops.
 
 ## Asynchronous Programming
 
-Asynchronous functions are those which run in the background. When the function completes its task it calls back into code you've provided which can then handle the result of the operation. In the meantime the rest of your application is able to continue executing.
+Asynchronous functions are those which run in the background.  When the function completes its task it calls back a function you provide (called a callback function) which can then handle the result of the task.  In the meantime the rest of your application is able to continue executing.
 
 What makes node so popular is its asynchronous approach to almost all long running operations. And long running is a relative term. For a computer, an operation that takes a hundred milliseconds might be considered long running.
 
@@ -35,13 +35,13 @@ Long running operations are extremely common in web servers and include common *
 
 The first option is to perform the operation (read the file, access the database) and wait for it to finish before sending the results back to the browser. This prevents the server from handling new requests in the meantime. If a server receives many requests simultaneously it could take many seconds to handle the most recent ones, leading some of the requests to be dropped or ignored.
 
-The second option for the server is to start up a copy of itself to handle the request separately. For each new request the operating system must allocates memory for that copy of the server code. It may only be a small amount, as little as 2-5MB, but if thousands of requests are received simultaneously the computer will run out of memory and the server may crash.
+The second option for the server is to start up a copy of itself to handle the request separately. For each new request the operating system must allocat memory for that copy of the server code. It may only be a small amount, as little as 2-5MB, but if thousands of requests are received simultaneously the computer will run out of memory and the server may crash.
 
 With the help of node we'll be able to write code that doesn't suffer from either of these problems, and we can do it with the javascript that we already know.
 
 ## Asynchronous File Access
 
-Let's look an example. Node provides *Application Programming Interfaces* (APIs, or really just collections of functions) that automatically support asynchronous access to files and databases. The collections of functions are made available in *modules*, which we'll learn more about below. One of those is the [File System](http://nodejs.org/api/fs.html) module, abbreviated `fs`. Let's use the file system module to read a text file and print it to the console.
+Let's look at an example. Node provides *Application Programming Interfaces* (APIs, or really just collections of functions) that automatically support asynchronous access to files and databases. The collections of functions are made available in *modules*, which we'll learn more about below. One of those is the [File System](http://nodejs.org/api/fs.html) module, abbreviated `fs`. Let's use the file system module to read a text file and print it to the console.
 
 First make sure you have a text file called *test.txt* in the current directory filled with some text, perhaps a bit of [lorem ipsum](http://www.lipsum.com/). Create a new file called *reader.js*. Add the following code to that file.
 
@@ -63,79 +63,80 @@ fs.readFile('test.txt', function(err, data) {
 
 Notice the use of the anonymous, inline function for the callback which takes two parameters, `err` and `data`. This is an extremely common pattern with node's asynchronous operations.
 
-Our callback function is responsible for dealing with the contents of the file. `data` is a *stream* object which we won't go into. For now it's satisfactory to know that you can call `toString()` on it to get the text contents of the file. But first we should check for errors. Modify the function to include *error checking*:
+Our callback function is responsible for dealing with the contents of the file. `data` is a *stream* object, which we won't go into. For now it's satisfactory to know that you can call `toString()` on it to get the text contents of the file. But first we should check for errors. Let's modify the function to include *error checking*:
 
 ```js
 fs.readFile('test.txt', function(err, data) {
-	if (err) {
-		console.log("Unable to read file about.txt");
+	if(err) {
+		console.log('Error reading file: %j', err);
+		return;
 	}
 });
 ```
 
-We're now ready to extract the contents of the file and print them to the screen:
+We're now ready to extract the contents of the file and print them to the console:
 
 ```js
 fs.readFile('test.txt', function(err, data) {
-	if (err) {
-		console.log("Unable to read file test.txt");
-	} else {
-		console.log("File Contents:");
-      	console.log(data.toString());
+	if(err) {
+		console.log('Error reading file: %j', err);
+		return;
 	}
+	console.log('File Contents:');
+	console.log(data.toString());
 });
 ```
 
 Run the program from the command line with node:
+```bash
+	$ node reader.js
+```
+It should read the contents of the *test.txt* file and print it to the console!
 
-	$ node reader.js test.txt
-
-It should read the contents of the *test.txt* file and print it to the screen!
-
-This may not seem exceptional. Almost every programming environment provides a way to read files. But this function is doing it asynchronously. Add two `console.log` commands, one before and one after the call to `js.readFile`, so that you can see the effect of an asynchronous operation:
+This may not seem exceptional. Almost every programming environment provides a way to read files. But this function is doing it asynchronously. Add two `console.log()` commands, one before and one after the call to `js.readFile()`, so that you can see the effect of an asynchronous operation:
 
 ```js
-console.log("About to Read File");
+console.log('Before fs.readFile()');
 
 fs.readFile('test.txt', function(err, data) {
-	if (err) {
-		console.log("Unable to read file test.txt");
-	} else {
-		console.log("File Contents:");
-      	console.log(data.toString());
+	if(err) {
+		console.log('Error reading file: %j', err);
+		return;
 	}
+	console.log('File Contents:');
+	console.log(data.toString());
 });
 
-console.log("Called fs.readFile()\n");
+console.log('After fs.readFile()');
 ```
 
-Run the program again. This time you'll see the string "Called fs.readFile()" printed to the console *before* the contents of the file are. Our program is able to continue executing even while the file is being read in the background. That makes it asynchronous.
+Run the program again. This time you'll see the string "After fs.readFile()" printed to the console *before* the contents of the file are. Our program is able to continue executing even while the file is being read in the background. That makes it asynchronous.
 
-Here's the code for the entire example:
+Here's the code for the entire example of ```reader.js```:
 
 ```js
 var fs = require('fs');
 
-console.log("About to Read File");
+console.log('Before fs.readFile()');
 
 fs.readFile('test.txt', function(err, data) {
-	if (err) {
-		console.log("Unable to read file test.txt");
-	} else {
-		console.log("File Contents:");
-      	console.log(data.toString());
+	if(err) {
+		console.log('Error reading file: %j', err);
+		return;
 	}
+	console.log('File Contents:');
+	console.log(data.toString());
 });
 
-console.log("Called fs.readFile()\n");
+console.log('After fs.readFile()');
 
 ```
 
 ## Modules
 
-Node organizes code in modules. A module is a collection of functions and data all contained in a single file. Every file in a node application is its own module. Node also provides a number of built in modules.
+Node organizes code in modules. A module is a collection of functions and data all contained in a single file. Every file in a node application is its own module. Node also provides a number of built-in modules.
 
-Modules are accessed with the `require` function, which is available in the global scope. For built-in modules, pass the module's *alias* as a string. We've already seen that the alias for the file system module is "fs":
+Modules are accessed with the `require()` function, which is available in the global scope. For built-in modules, pass the module's *alias* as a string. We've already seen that the alias for the file system module is ```fs```:
 
 ```js
 var fs = require('fs');
@@ -147,7 +148,7 @@ Refer to the [Node API Documentation](http://nodejs.org/api/) for information on
 
 ## The HTTP Module
 
-Let's look at another module, the `http` module. Create a new file called "server.js" and import the http module:
+Let's look at another module, the `http` module. Create a new file called `server.js` and import the http module:
 
 ```js
 var http = require('http');
@@ -156,7 +157,7 @@ var http = require('http');
 The http module includes the functionality needed to create a web server in node. Let's do that. Creating a server is as simple as calling the appropriately named function:
 
 ```js
-var server = http.createServer(function (req, res) {
+var server = http.createServer(function(req, res) {
 	console.log(req.url);
 });
 ```
@@ -165,17 +166,17 @@ var server = http.createServer(function (req, res) {
 
 We'll learn more about http requests and responses in the next lesson. For now it's important to know that the request object has a `url` property that indicates which resource on the server is being requested and that a proper response must have *headers* and *body* content. Headers include information or *metadata* about the response, and the body is composed of text like html or perhaps an image.
 
-When `createServer` is set up like this the callback is responsible for handling all requests to the server, or anytime someone browses to it. The connection expects a response, so let's send back "hello world". Write the headers and use the `end` function on the `res` object to write out plain text:
+When `createServer` is set up like this the callback is responsible for handling all requests to the server, or anytime someone browses to it. The connection expects a response, so let's send back "Hello World". Write the headers using `writeHead()` and the content with the `end()` function on the `res` object:
 
 ```js
-var server = http.createServer(function (req, res) {
-  	console.log(req.url);
+var server = http.createServer(function(req, res) {
+	console.log(req.url);
 	res.writeHead(200, {'Content-Type': 'text/plain'});
-  	res.end('Hello World\n');
+	res.end('Hello World\n');
 });
 ```
 
-Finally, run the server by calling the `listen` function on the `server` variable. Listen takes two parameters, the port to listen on and the url:
+Finally, run the server by calling the `listen()` function on the `server` variable. `listen()` takes two parameters, the port and the IP address to listen on:
 
 ```js
 server.listen(3000, '127.0.0.1');
@@ -185,45 +186,48 @@ Save your file and start the application in the console with:
 
 	$ node server.js
 
-Visit `http://127.0.0.1:3000` in a browser. The browser should show "hello world". Watch the console. Try any path at that address and node prints it to the console.
+Visit `http://127.0.0.1:3000` in a browser. The browser should show "Hello World". Watch the console. Try any path at that address and node prints it to the console.
 
-Congratulations! You just built a web server in node. Here's the code in its entirety:
+Congratulations! You just built a web server in node. Here's the code of `server.js` in its entirety:
 
 ```js
-var fs = require('http');
+var http = require('http');
 
-var server = http.createServer(function (req, res) {
-  	console.log(req.url);
+var server = http.createServer(function(req, res) {
+	console.log(req.url);
 	res.writeHead(200, {'Content-Type': 'text/plain'});
-  	res.end('Hello World\n');
+	res.end('Hello World\n');
 });
 
 server.listen(3000, '127.0.0.1');
 ```
 
-Let's make our server slightly more advanced. We know how to read files with the `fs` module. Let's import that module and send back an "index.html" file that lives in the same directory as the server.
+Let's make our server slightly more advanced. We know how to read files with the `fs` module. Let's import that module and send back an `index.html` file that lives in the same directory as the server.
 
-First create an "index.html" file and add some html to it. You might try the bootstrap template. You'll need to fix the links to the css and javascript files, but use the content distribution network (CDN) resources instead of local ones:
+First create an `index.html` file and add some html to it. You might try the bootstrap template. You'll need to fix the links to the css and javascript files, but use the content distribution network (CDN) resources instead of local ones:
 
 ```html
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<html>
+<head>
+	<title>My First Node Server</title>
+</head>
+<body>
+	<h1 style="text-align:center">This is really <u>HTML</u> that our server is returning!</h1>
+</body>
+</html>
 ```
 
-Now modify server.js first to include the `fs` module. Put it at the top of the file with the http require:
+Now modify server.js first to include the `fs` module. Put it at the top of the file with the `http` require:
 
 ```js
 var http = require('http');
 var fs = require('fs');
 ```
 
-In the server callback, use the `readFile()` function on the `fs` module to read in index.html:
+In the server callback, use the `readFile()` function on the `fs` module to read our `index.html`:
 
 ```js
-var server = http.createServer(function (req, res) {
+var server = http.createServer(function(req, res) {
 	console.log(req.url);
 	fs.readFile('index.html', function(err, data) {
 
@@ -233,19 +237,19 @@ var server = http.createServer(function (req, res) {
 
 Notice that we are using callback functions inside callback functions. This is known as [callback hell](http://callbackhell.com/), although here it isn't too bad.
 
-In the callback to `readFile`, check if there is an error and if so send an appropriate response to the browser. Otherwise send the contents of the file:
+In the callback to `readFile()`, check if there is an error and if so send an appropriate response to the browser. Otherwise send the contents of the file:
 
 ```js
-var server = http.createServer(function (req, res) {
+var server = http.createServer(function(req, res) {
 	console.log(req.url);
 	fs.readFile('index.html', function(err, data) {
-		if (err) {
-			res.writeHead(200, {'Content-Type': 'text/plain'});
-			res.end("Unable to read file index.html\n");
-		} else {
-			res.writeHead(200, {'Content-Type': 'text/html'});
-			res.end(data.toString());
+		if(err) {
+			res.writeHead(400, {'Content-Type': 'text/plain'});
+			res.end('Unable to read file index.html\n');
+			return;
 		}
+		res.writeHead(200, {'Content-Type': 'text/html'});
+		res.end(data.toString());
 	});
 });
 ```
