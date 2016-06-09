@@ -263,9 +263,9 @@ Our server node program behaves differently from previous node programs we've wr
 
 Our server program, on the other hand, keeps running even after the last line of code is reached. Why?
 
-Javascript programs run with a built-in event loop. An event loop handles and processes external events and converts them into callback invocations. Events in the browser include activity like a user clicking the mouse on a button, scrolling or entering some text. On the server events include the completion of file system operations or network connections.
+Javascript programs run with a built-in event loop. An event loop handles and processes external events and converts them into callback invocations. Events in the browser include activity like a user clicking on a button, scrolling or entering some text. On the server events include the completion of file system operations or network connections.
 
-When a program registers a callback for events that may occur sometime in the future, node ensures the event loop continues to run while waiting for events to occur. If there is nothing for your program to do in the meantime no code will be executed, but as soon as an event does occur your callback code is run so that your program has the opportunity to respond to it. Your program will continue to run, waiting for events to occur, as long as you have callbacks registered for events.
+When a program registers a callback for events that may occur sometime in the future, node ensures the event loop continues to run while waiting for events to occur. If there is nothing for your program to do in the meantime, no code will be executed; but as soon as an event does occur your callback code is run so that your program has the opportunity to respond to it. Your program will continue to run, waiting for events to occur, as long as you have callbacks registered for events.
 
 ## Creating Your Own Modules
 
@@ -293,7 +293,7 @@ Now lets create a program that uses this functionality. Create another file call
 var circle = require('./circle');
 ```
 
-Notice that the string we pass to `require` is slightly different. Preceed the name of the file with `./`, which indicates that the file is relative to the current directory. Then provide the name of the file but leave off the `.js` part. All we're doing is providing the path to the file instead of an alias while leaving off the file extension.
+Notice that the string we pass to `require` is slightly different. Precede the name of the file with `./`, which indicates that the file is relative to the current directory. Then provide the name of the file but leave off the `.js` extension. All we're doing is providing the path to the file instead of an alias while leaving off the file extension.
 
 Access the functions as you would on built-in modules with the object dot notation:
 
