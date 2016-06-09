@@ -22,7 +22,7 @@
 		</tr>
 		<tr>
 			<td>2.1</td>
-			<td>Callbacks and Promises</td>
+			<td>Express and Routing</td>
 		</tr>
 		<tr>
 			<td>2.2</td>
@@ -34,7 +34,7 @@
 		</tr>
 		<tr>
 			<td>3.1</td>
-			<td>Express and Routing</td>
+			<td>Callbacks and Promises</td>
 		</tr>
 		<tr>
 			<td>3.2</td>
@@ -98,7 +98,7 @@
 		</tr>
 		<tr>
 			<td>8.2</td>
-			<td>Project 4</td>
+			<td>Project 4: Web Store Front</td>
 		</tr>
 
 	</tbody>
