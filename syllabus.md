@@ -26,31 +26,32 @@
 		</tr>
 		<tr>
 			<td>2.2</td>
-			<td>Project 1: Image Server</td>
+			<td>Javascript Review</td>
 		</tr>
 
 		<tr>
 			<th colspan="2" align="left">Week 3</th>
 		</tr>
 		<tr>
-			<td>3.1</td>
-			<td>Callbacks and Promises</td>
+			<td>2.1</td>
+			<td>Express and Routing - Take 2</td>
 		</tr>
 		<tr>
-			<td>3.2</td>
-			<td>Intro to AngularJS</td>
+			<td>2.2</td>
+			<td>Project 1: Zip Code Lookup</td>
 		</tr>
+
 
 		<tr>
 			<th colspan="2" align="left">Week 4</th>
 		</tr>
 		<tr>
-			<td>4.1</td>
-			<td>Angular meets Node</td>
+			<td>3.1</td>
+			<td>Intro to AngularJS</td>
 		</tr>
 		<tr>
-			<td>4.2</td>
-			<td>Project 2</td>
+			<td>3.2</td>
+			<td>Angular Mini Projects</td>
 		</tr>
 
 		<tr>
@@ -58,11 +59,11 @@
 		</tr>
 		<tr>
 			<td>5.1</td>
-			<td>Advanced Routing and Middleware</td>
+			<td>Angular Meets Node</td>
 		</tr>
 		<tr>
 			<td>5.2</td>
-			<td>MongoDB and Mongoose</td>
+			<td>Angular Shopping List</td>
 		</tr>
 
 		<tr>
@@ -70,12 +71,14 @@
 		</tr>
 		<tr>
 			<td>6.1</td>
-			<td>Mongoose Population</td>
+			<td>MongoDB and Mongoose</td>
 		</tr>
 		<tr>
 			<td>6.2</td>
-			<td>Project 3</td>
+			<td>Mongoose Population</td>
 		</tr>
+
+
 
 		<tr>
 			<th colspan="2" align="left">Week 7</th>
