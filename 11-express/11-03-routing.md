@@ -5,13 +5,12 @@ The express web framework makes it easy for us to target specific http requests 
 
 When a request reaches our web server it includes information such as the request action (GET, POST, PUT, DELETE), the requested resource in the form of a url, and additional headers as well as any body content. Normally we would need to parse that information manually and, using application logic, ensure that the correct response is generated.
 
-For example we could parse the action and url to see that the request wants to `GET` the `/pages/about.html` resource and so return the document located in the server's `public` folder at the location. Or we could see that the requests wants to `POST` to the `/blog/posts` and contains body data and so create a new blog post with that data and return a redirection to the newly created resource.
+For example, we could parse the action and url to see that the request wants to `GET` the `/about.html` resource and so return the document located in the server's `public` (or `app`) folder at the location. Or we could see that the requests wants to `POST` to `/items` and contains body data and so create a new item with that data and return it.
 
-Express provides facillities for ensuring that the right part of our application responds to the right requests without having to manually parse everything. This is called *routing*.
+Express provides facilities for ensuring that the right part of our application responds to the right requests without having to manually parse everything. This is called *routing*.
 
-Routing allow us to specify an action and a url path that will match against incoming requests. We also provide a callback for custom code that is executed any time someone makes a request that matches that action and url. In our callback we'll be able to access additional information in the url as well as any request headers easily and we'll be able to formulate a response to the request with very little work.
+Routing allow us to specify an action and a url path that will match against incoming requests. We also provide a callback for custom code that is executed anytime someone makes a request that matches that action and url. In our callback we'll be able to access additional information in the url as well as any request headers easily and we'll be able to formulate a response to the request with very little work.
 
-Today's class is our first real introduction to express, which we've been using since day one. We will focus on the *app.js* file and those in the *routes* folder.
 
 ## Resources
 
@@ -19,58 +18,39 @@ Today's class is our first real introduction to express, which we've been using 
 
 The Express homepage. Particularly important are the Guide and API Reference.
 
-[Ruby on Rails Routing](http://guides.rubyonrails.org/routing.html)
+[Scotch.io](https://scotch.io/tutorials/learn-to-use-the-new-router-in-expressjs-4)
 
-Rails is another web application framework like Express but for the Ruby programming language. Not all of the information in its routing documentation applies, but you'll see definite similarites.
-
-In the end, every web application needs to do the same thing: handle requests and generate responses.
-
-## Install the Express Generator
-
-Before you get started you must install the express generator. First check to see if it's already install on your system. Fire up your terminal or GitBash and run:
-
-```
-$ which express
-/usr/local/bin/express
-```
-
-If you don't get back the location of express, install it with:
-
-```
-npm install express-generator -g
-```
-
-You're using npm to install the express generator, but the `-g` flag tells npm to install it globally.
+A great overview of the basics of express routing.
 
 ## Basic Routing
 
-Basic express routing is straightfoward. Begin by creating a new express application. Create a new directory, cd into it and template a new project:
+Basic express routing is straightforward.  Let's begin by creating a new application. Create a new directory, cd into it, and install the express module:
 
-	$ mkdir express-test
-	$ cd express-test
-	$ express
+	$ mkdir my-first-express-route
+	$ cd my-first-express-route
+	$ npm install express
 
-Don't forget to install the application dependencies and then start your application to make sure it's working:
+Let's create a new file called server.js:
 
-	$ npm install
-	$ npm start
-
-You should be able to visit *http://localhost:3000/* to view the web application. Futue path references in this chapter will always refer to your localhost:3000 server.
-
-Let's modify the code to add a few basic routes. Add all following code in this chapter between these two lines in the *app.js* file:
-	
 ```js
-// this line is	already here
-app.use(express.static(path.join(__dirname, 'public')));
+// Require the express module
+var express = require('express');
+// Create an application instance of express
+var app = express();
 
-// make space and add your code here
-...
+// Let's define our routes
+app.get('/', function(req,res) {
+	res.send('Hello World!');
+});
 
-// this line is already here
-app.use('/', routes);
+// Start our server
+app.listen(8080);
+console.log('Server started.  Visit: http://localhost:8080');
 ```
 
-To add a route, call a function on the `app` object that corresponds to the http action you want to address and provide two parameters. The first is the path on your server for that resource and the second is a callback that itself takes two parameters: the request object `req` and the response object `res`. This callback will be called anytime someone makes a request to your server with that action and that path:
+You can run our new server by telling node to execute `server.js`:  `node server.js`.
+
+To add a route, call a function on the `app` object that corresponds to the http action you want to address and provide two parameters. The first is the path on your server for that resource and the second is a callback that takes two parameters: the request object `req` and the response object `res`. This callback will be called anytime someone makes a request to your server with that action and that path:
 
 ```js
 app.get('/heartbeat', function(req, res) {
@@ -78,24 +58,24 @@ app.get('/heartbeat', function(req, res) {
 });
 ```
 
-Because we've modified the application itself we must restart the server to see the changes. Ctrl-c `^C` to quit the application and start it up again with `npm start`. 
+Because we've modified the application itself we must restart the server to see the changes. Ctrl-c `^C` to quit the application and start it up again with `node server.js`.
 
-In this example we are targeting `GET` requests to `/heartbeat`, so browse to *http://localhost:3000/heartbeat* and you should see the response you've specified.
+In this example we are targeting `GET` requests to `/heartbeat`, so browse to *http://localhost:8080/heartbeat* and you should see the response you've specified.
 
-Notice the use of the `res.send` function to actually generate the server's response. This replace the use of 
+Notice the use of the `res.send` function to actually generate the server's response. This replaces the use of
 
 ```js
 res.writeHead(200, {'Content-Type': 'text/plain'});
 res.end("Unable to read file index.html\n");
 ```
 
-that we saw with the `http` module. We'll learn more about generating responses in the chapter on rendering.
+that we saw with the `http` module.
 
 We can of course specify more complex routes, for example routes with subpaths. Use the same format but modify the first parameter to the `get` function to target that resource:
 
 ```js
-app.get('/heartbeat/format/index.html', function(req, res) {
-    res.send("HTML: Application Heartbeat");
+app.get('/orders/123/detail', function(req, res) {
+    res.send('Return the order details for order 123');
 });
 ```
 
@@ -121,6 +101,11 @@ To use Postman, enter a url and select the http action. We want `http://localhos
 
 Postman is a useful tool that we'll use to test our web application as we develop it.
 
+
+
+
+
+
 Finally it is worth mentioning that we could also respond to 'PUT' and 'DELETE' requests like so:
 
 ```js
@@ -140,66 +125,45 @@ Often we'll want to respond to similar but slightly different requests with the 
 
 This happens when we want the same code to run for many resources of the same type that are stored in a database but have unique identifiers. For example, it would be useful if the following paths:
 
-	/people/phil
-	/people/okcoders
+	/orders/124
+	/orders/567
 
-executed the same code because all that is different is the name of the person, and we can use that name to look the person up in a database. Each response, however, will basically return the same html page just with different details. 
+executed the same code because all that is different is the order ID, and we can use that to look it up in a database.
 
-Moreover we may not know the names of every person which exists yet because the application may allow new people to sign up. How can we specify a route for a resource which doesn't even exist?
-
-**Wildcards**
-
-Express allows us to include variables in our routing paths. The simplest variable is the wildcard `*` which tells express to match the wildcard to any characters as long as the rest of the path matches as well. This is easy to see with an example:
-
-```js
-app.get('/heartbeat/subpath/*', function(req, res) {
-    res.send(req.url);
-});
-```
-
-Using the wildcard `*`, express will now match any request for a resource as long as it begins with `/heartbeat/subpath/`. Beyond that it can contain anything else. All of the following paths match this request:
-
-	/heartbeat/subpath/
-	/heartbeat/subpath/index
-	/heartbeat/subpath/index.html
-	/heartbeat/subpath/foo/bar/baz.json
-
-As always, to see this changes you save the file you're editing and restart the server.
+Moreover we may not know the IDs of all the orders when we write the application. How can we specify a route for a resource which doesn't even exist?
 
 **Named parameters**
 
-More useful, however, are named parameters. Named parameters allow us to identify changes in a path around which the rest of the path remains the same. Then in our callback we are able to access the value of the variable portion. Named parameters are identified with a colon `:`.
+Named parameters allow us to identify changes in a path around which the rest of the path remains the same. Then in our callback we are able to access the value of the variable portion. Named parameters are identified with a colon `:`.
 
 Let's use a named parameter for our people path:
 
 ```js
-app.get('/people/:username', function(req, res) {
-	var username = req.params.username;
-	res.send("You requested user " + username);
+app.get('/orders/:orderId', function(req, res) {
+	var orderId = req.params.orderId;
+	res.send("You requested order " + orderId);
 });
 ```
 
-The path `/people/:username` allows the route to match any GET request with a path that looks like `/people/x` where x is a single additional component in the path (e.g. no additional `/`). For example the path will match:
+The path `/orders/:orderId` allows the route to match any GET request with a path that looks like `/orders/x` where x is a single additional component in the path (e.g. no additional `/`). For example the path will match:
 
-	/people/phil
-	/people/okcoders
-	/people/phil.html
-	/people/12
-	/people/12?format=json
-	/people/1234-5678-ABCD-EF90
+	/orders/1234
+	/orders/blah
+	/orders/12?format=json
+	/orders/1234-5678-ABCD-EF90
 
 But it will **not** match:
 
-	/people/phil/more
-	/people/phil.html/subpath
+	/orders/123/more
+	/orders/456/subpath
 
 Then in the callback function express adds a `params` object to the `req` parameter which includes whatever named values the path specified. Access the value in the path by its name, so:
 
-	req.params.username
+	req.params.orderId
 
 Contains whatever text appears where
-	
-	:username
+
+	:orderId
 
 is in the path originally specified for the route.
 
@@ -207,8 +171,8 @@ Let's try another example:
 
 ```js
 app.get('/blog/posts/:id', function(req, res) {
-	var postID = req.params.id;
-	res.send("You requested blog post " + postID);
+	var postId = req.params.id;
+	res.send("You requested blog post " + postId);
 });
 ```
 
@@ -223,7 +187,7 @@ This route will match any GET request for a `/blog/posts/x` where x is any singl
 We can use named parameters with subpaths. By default a named parameter only matches a single component of a path, the text between two forward slashes `/.../`, so we can add path information after the named parameter to further refine our matching. For example, you might want to be able to update a blog post or delete it with paths like:
 
 	/blog/posts/1/update
-	/blog/posts/1/delete	
+	/blog/posts/1/delete
 
 But you don't want to execut the same code used for viewing the post. Refine the matched path simply by adding the additional path information after the named parameter. The path for the router will look like:
 
@@ -234,13 +198,13 @@ Here's the code:
 
 ```js
 app.get('/blog/posts/:id/update', function(req, res) {
-	var postID = req.params.id;
-	res.send("You want to update blog post " + postID);
+	var postId = req.params.id;
+	res.send("You want to update blog post " + postId);
 });
 
 app.get('/blog/posts/:id/delete', function(req, res) {
-	var postID = req.params.id;
-	res.send("You want to delete blog post " + postID);
+	var postId = req.params.id;
+	res.send("You want to delete blog post " + postId);
 });
 ```
 
@@ -265,13 +229,13 @@ This is a totally acceptable path for express and we'll send it to the `get` fun
 
 ```js
 app.get('/blog/posts/:postid/comments/:commentid', function(req, res) {
-	var postID = req.params.postid;
-	var commentID = req.params.commentid;
-	res.send("You want to view the comment " + commentID + "for blog post " + postID);
+	var postId = req.params.postid;
+	var commentId = req.params.commentid;
+	res.send("You want to view the comment " + commentId + "for blog post " + postId);
 });
 ```
 
-Notice that both the named paramters are available on the `req.params` object. Be careful which name you refer to!
+Notice that both the named parameters are available on the `req.params` object. Be careful which name you refer to!
 
 Restart the web server and visit paths such as:
 
@@ -349,7 +313,7 @@ That might seem a little confusing, but it's more straightforward with the users
 app.use('/users', users);
 ```
 
-Passing in `/users` for the first parameter means that all the routes defined in *routes/users.js* are *scoped to* the `/users` path. They must being with `/users`, so that `/` in users now actually matches: 
+Passing in `/users` for the first parameter means that all the routes defined in *routes/users.js* are *scoped to* the `/users` path. They must being with `/users`, so that `/` in users now actually matches:
 
 	/users/
 
@@ -367,7 +331,7 @@ router.get('/:username', function(req, res) {
 Save all the edited files and restart the server.
 
 Now you can't just visit a path like
-	
+
 	/phil
 	/okcoders
 
@@ -384,39 +348,33 @@ Express routing is organized around the concept of middleware. Middleware is cod
 
 An application can have multiple layers of middleware connected together in a chain. We see them in express with the `app.use` function and any `app.VERB` function like `app.get` or `app.post`. Middelwares are executed in the order in which they are defined.
 
-For example, the template express application includes a number of middleware items added to the application before any of the routing code:
+For example, we need to use the `bodyParser` middleware to parse `POST` requests:
 
 ```js
-app.use(favicon());
-app.use(logger('dev'));
+...
+var bodyParser = require('body-parser');
+...
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-app.use(cookieParser());
 ```
 
-These are special middleware items included in your express project as third party code. You'll notice that each is `required` at the top of the application.
+We'll use `bodyParser` in later projects.
 
 Because the middleware is included before the routing, where your application's custom code resides, they are executed before your application has a chance to see the request.
 
 Each middleware has access to the request and response objects just like your routing callback functions do. Middleware can do whatever it wants with the information in the request as long as it either sends a response back or calls the next middelware item in the chain.
 
-These particular middleware items are responsible for sending back the web site's [favicon](http://en.wikipedia.org/wiki/Favicon), logging information to the console, parsing body content into more usable data and handling [cookies](http://en.wikipedia.org/wiki/HTTP_cookie). Most of them don't generate a reponse but instead modify the request in subtle ways to make it easier to use.
-
 At some point in the middleware chain a response must be generated by calling the appropriate functions on the `res` object such as `res.send`, `res.sendfile` or `res.json`. We'll learn more about the response object in the next chapter. For now it's important to know that once a response is generated, the chain immediately exits and no additional code is executed.
 
-This means that middelware can respond to a request without letting your own application code see it. It also means that only a single custom route has the opportunity to actually generate a response. If more than one route matches an incoming request, whichever route is defined first is the one that responds to it.
+This means that middleware can respond to a request without letting your own application code see it. It also means that only a single custom route has the opportunity to actually generate a response. If more than one route matches an incoming request, whichever route is defined first is the one that responds to it.
 
 **The public directory**
 
-There is one particularly special piece of middleware we've been using since the beginning of the class. It is express's own `static` middleware, added to the application with:
+There is one particularly special piece of middleware we've already seen in class.  It is express's own `static` middleware, added to the application with:
 
 ```js
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname +  '/public'));
 ```
 
 The `static` middleware is used to send files in the specified directory automatically. It looks in the directory specified and if it finds a file that matches a GET request's path it automatically sends that file.
 
-By default express uses a `public` directory but you could use whatever directory you wanted and even add additional directories.
-
-
-
+By default express uses a `public` directory but you could use whatever directory you want and even add additional directories.
