@@ -39,8 +39,8 @@ var location = zipcodes.lookup('74133');                  // Look up a zip code 
 console.log(location.longitude, location.latitude);       // Print out our coordinates
 ```
 
-Everyone will need to incorporate express routing to take a passed zip code and return the weather,return the current summary text would be ideal:
+Everyone will need to incorporate express routing to take a passed zip code and return the weather, returning the current summary text would be ideal:
 
 Going to `http://localhost:8080/weather/74133` would return `Partly Cloudy`.
 
-We will build on top of this project, so create a separate directory (`weather` or similar) for this project.
+We will build on top of this project, so create a separate directory (`weather` or similar) for this project.  Feel free to commit to github if you remember the steps.
