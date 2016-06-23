@@ -46,3 +46,32 @@ app.use('/', express.static('./public'));
 ```
 
 Remember, `/` is the *mount point* for this static content in our express app.  `./public` is the relative path to the *public* folder from our node program.
+
+jQuery 101
+==========
+For small very projects, we will jQuery.  Instead of having to download it, will load it via it's [CDN](https://code.jquery.com/jquery-3.0.0.min.js), *Content Distribution Network*.
+
+Let's see the minimum needed for a jQuery example:
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>   <!-- Load jQuery -->
+</head>
+<body>
+	<div id="messageTarget"></div>                <!-- Create an empty div with an id of 'messageTarget'.  This is where we will place our text. -->
+
+	<script type="text/javascript">
+		$(document).ready(function() {			                // Our client-side program waits till the document and jQuery are ready
+			console.log('jQuery ready!');
+			$('#messageTarget').html('Hello <b>World</b>!');    // Using a CSS selector, find our target div by its id, then set it's content to 'Hello World'
+		});
+	</script>
+</body>
+</html>
+```
+
+If you are not familar with jQuery, here are a few resources:
+- http://jqfundamentals.com/chapter/jquery-basics
+- https://www.codeschool.com/courses/try-jquery
+- https://www.codecademy.com/learn/jquery
