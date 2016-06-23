@@ -36,7 +36,7 @@ This is great, but we need the latitude/longitude to look up the weather; not so
 var zipcodes = require('zipcodes');                       // Require the zipcodes module
 
 var location = zipcodes.lookup('74133');                  // Look up a zip code and assign the returned object to the location variable
-console.log(location.longitude, location.latitude);       // Print out our coordinates
+console.log(location.latitude, location.longitude);       // Print out our coordinates
 ```
 
 Everyone will need to incorporate express routing to take a passed zip code and return the weather, returning the current summary text would be ideal:
