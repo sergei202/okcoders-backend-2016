@@ -49,7 +49,7 @@ Remember, `/` is the *mount point* for this static content in our express app.  
 
 jQuery 101
 ==========
-For small very projects, we will jQuery.  Instead of having to download it, will load it via it's [CDN](https://code.jquery.com/jquery-3.0.0.min.js), *Content Distribution Network*.
+For small very projects, we will use jQuery.  Instead of having to download it, will load it via it's [CDN](https://code.jquery.com/jquery-3.0.0.min.js), *Content Distribution Network*.
 
 Let's see the minimum needed for a jQuery example:
 ```html
@@ -70,7 +70,61 @@ Let's see the minimum needed for a jQuery example:
 </body>
 </html>
 ```
+We'll use the `$(selector).html(content)` pattern anytime we want to display something in clint-side javascript.
 
+### jQuery and HTML Inputs
+Now we know how to output things, how do we get input?  We can use standard html form inputs and a little bit of jQuery:
+```html
+<input type="text" id="myName">
+```
+```js
+var myNameText = $('#myName').val();
+console.log('myName = ', myNameText);
+```
+If we try running this code in `index.html`, we'll see that the console says *myName* is always blank, regardless of what we put in the input field.  That's because our code reads and outputs the content of *myName* immediately, before we could ever enter something into the field.  Let's have the user tell us when they are ready by adding a button and have our code run when the button is pressed.
+
+```html
+<input type="text" id="myName">
+<input type="button" id="myButton" name="Submit">
+```
+```js
+$('#myButton').on('click', function() {
+	var myNameText = $('#myName').val();
+	console.log('myName = ', myNameText);
+});
+```
+We attach an *event listener* that listens for *click* events on `#myButton`, when the button is clicked, jQuery runs our event handler function (just like express does for our routes) and we read and console out the name the user entered.
+
+Below is a full example of asking for a user's name and outputting it back to them.
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>   <!-- Load jQuery -->
+</head>
+<body>
+
+	<input type="text" id="myName">                           <!-- This is an input text field for the user to tell us their name -->
+	<input type="button" id="myButton" value="Say My Name">   <!-- Our submit button.  'value' is the button label -->
+
+	<div id="nameOutput"></div>                               <!-- Create an empty div for our output -->
+
+	<script type="text/javascript">
+		$(document).ready(function() {                        // Our client-side program waits till the document and jQuery are ready
+			console.log('jQuery ready!');
+
+			$('#myButton').on('click', function() {           // Attach a click event handler onto our button
+				var myNameText = $('#myName').val();
+				var outputHtml = '<h1>Hi ' + myNameText + '!!!</h1>';
+				$('#nameOutput').html(outputHtml);
+			});
+		});
+	</script>
+</body>
+</html>
+```
+
+### More Resources
 If you are not familar with jQuery, here are a few resources:
 - http://jqfundamentals.com/chapter/jquery-basics
 - https://www.codeschool.com/courses/try-jquery
