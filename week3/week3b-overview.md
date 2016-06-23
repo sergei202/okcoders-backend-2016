@@ -124,6 +124,57 @@ Below is a full example of asking for a user's name and outputting it back to th
 </html>
 ```
 
+### jQuery Ajax
+We know how to make express routes, and we know how to trigger them by browsing to that location; but how can we trigger them dynamically, like when a user presses a button?
+
+Enter Ajax (*Asynchronous Javascript and XML*).  Ajax allows to request web resources dynamically.  Since we are only using GET requests so far, let's start there:
+```js
+$.get(url, function(result) {
+	console.log('Server returned: ', result);
+});
+```
+
+Let's see `$.get()` in action:
+```js
+// This is our server-side Node app (eg: ajax.js)
+var express = require('express');                   // Don't forget to install the express module
+
+var app = express();                                // Create our express app
+
+app.use('/', express.static('./public'));           // Tell express to mount whatever files are in the current directory at /
+
+app.get('/time', function(req,res) {                // Add a '/time' route that returns the current date/time
+	var now = new Date();							// Create a new Date object (defaults to the current time)
+	res.json(now.toString());						// Respond with our date converted to a string
+});
+
+app.listen(8080);									// Start our server
+console.log('Listening at http://localhost:8080');
+```
+
+```html
+<!-- This is public/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>   <!-- Load jQuery -->
+</head>
+<body>
+
+	<script type="text/javascript">
+		$(document).ready(function() {                        // Our client-side program waits till the document and jQuery are ready
+			console.log('jQuery ready!');
+
+			$.get('/time', function(result) {                 // Send a GET request to our /time route
+				console.log('The server says: ', result);     // Console log whatever the server returned
+			});
+		});
+	</script>
+</body>
+</html>
+```
+
+
 ### More Resources
 If you are not familar with jQuery, here are a few resources:
 - http://jqfundamentals.com/chapter/jquery-basics
